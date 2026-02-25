@@ -18,6 +18,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow-x: auto;
             overflow-y: auto;
             position: relative;
             padding: 20px;
@@ -87,7 +88,7 @@
             z-index: 10;
             padding: 40px;
             width: 100%;
-            max-width: 900px;
+            max-width: 1200px;
             position: relative;
         }
 
@@ -252,21 +253,20 @@
         .option {
             background: rgba(255, 255, 255, 0.08);
             border: 2px solid transparent;
-            padding: 10px 10px;
+            padding: 18px 20px;
             border-radius: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: left;
             color: #e6e6fa;
-            font-size: 0.3rem;
+            font-size: 1rem;
             height: 60px;
             display: flex;
             align-items: center;
             white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            width: 100%;
-            max-width: 850px;
+            width: fit-content;
+            min-width: 100%;
+            max-width: 100%;
         }
 
         .option:hover {
@@ -503,14 +503,15 @@
             }
 
             .option {
-                padding: 18px 25px;
-                font-size: 1.1rem;
+                padding: 18px 20px;
+                font-size: 1rem;
                 height: 60px;
                 display: flex;
                 align-items: center;
                 white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                width: fit-content;
+                min-width: 100%;
+                max-width: 100%;
             }
 
             .option-letter {
@@ -587,14 +588,15 @@
             }
 
             .option {
-                padding: 18px 25px;
-                font-size: 1.1rem;
+                padding: 18px 20px;
+                font-size: 1rem;
                 height: 60px;
                 display: flex;
                 align-items: center;
                 white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+                width: fit-content;
+                min-width: 100%;
+                max-width: 100%;
             }
         }
     </style>
@@ -1316,4 +1318,3 @@
     </script>
 </body>
 </html>
-
