@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>星穹铁道性格测试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #0c0c23 0%, #1a1a40 50%, #2a2a5a 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            position: relative;
+            padding: 20px;
+        }
+
+        body.centered {
+            align-items: center;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--duration, 2s) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: var(--opacity, 0.5);
+                transform: scale(var(--scale, 1));
+            }
+            50% {
+                opacity: 1;
+                transform: scale(calc(var(--scale, 1) * 1.2));
+            }
+        }
+
+        .constellation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .constellation-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(147, 51, 234, 0.6), transparent);
+            height: 1px;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .title {
+            font-size: 3rem;
+            background: linear-gradient(135deg, #ff6ad5, #8b5cf6, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(147, 51, 234, 0.6),
+                         0 0 60px rgba(59, 130, 246, 0.4),
+                         0 4px 8px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 30px rgba(147, 51, 234, 0.6),
+                             0 0 60px rgba(59, 130, 246, 0.4),
+                             0 4px 8px rgba(0, 0, 0, 0.5);
+            }
+            to {
+                text-shadow: 0 0 40px rgba(147, 51, 234, 0.8),
+                             0 0 80px rgba(59, 130, 246, 0.6),
+                             0 4px 8px rgba(0, 0, 0, 0.5);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #e6e6fa;
+            margin-bottom: 60px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            border: none;
+            padding: 18px 60px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4),
+                        inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s;
+        }
+
+        .start-btn:hover::before {
+            left: 100%;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(147, 51, 234, 0.6),
+                        inset 0 2px 4px rgba(255, 255, 255, 0.3);
+        }
+
+        .start-btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .decoration {
+            position: fixed;
+            width: 200px;
+            height: 200px;
+            border: 2px solid rgba(147, 51, 234, 0.2);
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .decoration:nth-child(1) {
+            top: -100px;
+            left: -100px;
+            border-color: rgba(255, 106, 213, 0.2);
+        }
+
+        .decoration:nth-child(2) {
+            bottom: -100px;
+            right: -100px;
+            border-color: rgba(59, 130, 246, 0.2);
+            animation-direction: reverse;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .quiz-container {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, #ff6ad5, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .question-text {
+            color: #fff;
+            font-size: 1.4rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .option {
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid transparent;
+            padding: 18px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            color: #e6e6fa;
+            font-size: 1.1rem;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .option:hover {
+            background: rgba(147, 51, 234, 0.15);
+            border-color: rgba(147, 51, 234, 0.4);
+        }
+
+        .option.selected {
+            background: rgba(147, 51, 234, 0.25);
+            border-color: #8b5cf6;
+        }
+
+        .option-letter {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: #fff;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(147, 51, 234, 0.3);
+            padding: 14px 40px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #8b5cf6;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: rgba(147, 51, 234, 0.2);
+            border-color: #8b5cf6;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            border-color: transparent;
+            color: #fff;
+        }
+
+        .nav-btn.primary:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(147, 51, 234, 0.4);
+        }
+
+        .result-container {
+            display: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 50px 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            text-align: center;
+        }
+
+        .result-type {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #ff6ad5, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: 3px;
+        }
+
+        .result-character {
+            font-size: 3.5rem;
+            color: #fff;
+            text-shadow: 0 0 30px rgba(147, 51, 234, 0.6);
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .personality-analysis {
+            background: rgba(147, 51, 234, 0.08);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: left;
+            line-height: 1.8;
+        }
+
+        .personality-analysis-title {
+            background: linear-gradient(135deg, #ff6ad5, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .personality-analysis-text {
+            color: #e6e6fa;
+            font-size: 1.1rem;
+        }
+
+        .character-intro {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: left;
+            line-height: 1.8;
+        }
+
+        .character-intro-title {
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .character-intro-text {
+            color: #e6e6fa;
+            font-size: 1.1rem;
+        }
+
+        .toast {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(28, 28, 56, 0.95);
+            border: 2px solid rgba(147, 51, 234, 0.5);
+            border-radius: 15px;
+            padding: 30px 50px;
+            color: #e6e6fa;
+            font-size: 1.2rem;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .toast-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .toast-close {
+            margin-top: 20px;
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            border: none;
+            padding: 10px 30px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .toast-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(147, 51, 234, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+                overflow-y: auto;
+            }
+
+            .container {
+                padding: 20px 15px;
+            }
+
+            .title {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 40px;
+            }
+
+            .start-btn {
+                padding: 14px 40px;
+                font-size: 1.1rem;
+            }
+
+            .quiz-container, .result-container {
+                padding: 25px 20px;
+            }
+
+            .question-text {
+                font-size: 1.2rem;
+                margin-bottom: 30px;
+            }
+
+            .option {
+                padding: 18px 25px;
+                font-size: 1.1rem;
+                height: 60px;
+                display: flex;
+                align-items: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .option-letter {
+                width: 30px;
+                height: 30px;
+                line-height: 30px;
+                margin-right: 15px;
+            }
+
+            .nav-btn {
+                padding: 12px 25px;
+                font-size: 0.95rem;
+            }
+
+            .result-type {
+                font-size: 1.2rem;
+                letter-spacing: 2px;
+            }
+
+            .result-character {
+                font-size: 2.5rem;
+            }
+
+            .personality-analysis, .character-intro {
+                padding: 20px;
+                margin-bottom: 25px;
+            }
+
+            .personality-analysis-title, .character-intro-title {
+                font-size: 1.1rem;
+            }
+
+            .personality-analysis-text, .character-intro-text {
+                font-size: 1rem;
+                line-height: 1.7;
+            }
+
+            .toast {
+                padding: 25px 30px;
+                font-size: 1.1rem;
+                width: 85%;
+                max-width: 350px;
+            }
+
+            .toast-close {
+                padding: 8px 25px;
+                font-size: 0.95rem;
+            }
+
+            .decoration {
+                width: 120px;
+                height: 120px;
+            }
+
+            .decoration:nth-child(1) {
+                top: -60px;
+                left: -60px;
+            }
+
+            .decoration:nth-child(2) {
+                bottom: -60px;
+                right: -60px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.6rem;
+            }
+
+            .result-character {
+                font-size: 2rem;
+            }
+
+            .option {
+                padding: 18px 25px;
+                font-size: 1.1rem;
+                height: 60px;
+                display: flex;
+                align-items: center;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="constellation" id="constellation"></div>
+    
+    <div class="decoration"></div>
+    <div class="decoration"></div>
+    
+    <div id="toast-overlay" class="toast-overlay" style="display: none;"></div>
+    <div id="toast" class="toast" style="display: none;">
+        <div id="toast-message"></div>
+        <button class="toast-close" onclick="hideToast()">知道了</button>
+    </div>
+    
+    <div class="container">
+        <div id="start-screen">
+            <h1 class="title">星穹铁道性格测试</h1>
+            <p class="subtitle">探索你与哪位星穹铁道角色最相似</p>
+            <button class="start-btn" onclick="startSurvey()">开始测试</button>
+        </div>
+
+        <div id="quiz-screen" class="quiz-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="question-number" id="question-number"></div>
+            <div class="question-text" id="question-text"></div>
+            <div class="options" id="options"></div>
+            <div class="nav-buttons">
+                <button class="nav-btn" id="prev-btn" onclick="prevQuestion()">上一题</button>
+                <button class="nav-btn primary" id="next-btn" onclick="nextQuestion()">下一题</button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="result-container">
+            <div class="result-type" id="result-type"></div>
+            <div class="result-character" id="result-character"></div>
+
+            <div class="personality-analysis" id="personality-analysis"></div>
+            <div class="character-intro" id="character-intro"></div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                text: "周末你更想做什么？",
+                options: [
+                    "约朋友逛街 / 探险，去哪都行！",
+                    "宅家看书 / 整理计划，安静待着",
+                    "陪家人 / 朋友聊天，准备小零食",
+                    "独自去没人的地方，发呆 / 听歌"
+                ]
+            },
+            {
+                text: "遇到陌生环境，你的第一反应是？",
+                options: [
+                    "主动搭话，快速熟悉周围",
+                    "先观察，确认安全再行动",
+                    "担心别人不适应，先照顾他人",
+                    "保持距离，不喜欢被打扰"
+                ]
+            },
+            {
+                text: "吃饭时你会选？",
+                options: [
+                    "尝新口味，没吃过的都试试",
+                    "固定吃常点的，不踩雷",
+                    "点大家都爱吃的，照顾口味",
+                    "选角落位置，吃自己的就好"
+                ]
+            },
+            {
+                text: "收到礼物的第一反应？",
+                options: [
+                    "超开心！立刻道谢还会回礼",
+                    "礼貌感谢，心里记着下次还情",
+                    "感动，会记住对方的喜好",
+                    "有点别扭，嘴上说不用但会收下"
+                ]
+            },
+            {
+                text: "空闲时会刷什么内容？",
+                options: [
+                    "搞笑视频 / 旅行攻略，越热闹越好",
+                    "科普 / 干货，能学到东西的",
+                    "治愈系短片 / 宠物视频",
+                    "小众冷门内容，不喜欢跟风"
+                ]
+            },
+            {
+                text: "对 \"计划被打乱\" 的态度？",
+                options: [
+                    "无所谓，随机应变更有趣",
+                    "有点烦躁，会快速重新规划",
+                    "担心影响别人，先道歉 / 安抚",
+                    "很不爽，不想配合临时变动"
+                ]
+            },
+            {
+                text: "出门会提前多久准备？",
+                options: [
+                    "卡点出门，甚至偶尔迟到",
+                    "提前半小时，留足缓冲时间",
+                    "提前准备好，还会提醒同行的人",
+                    "提前很久，但不想等人 / 被等"
+                ]
+            },
+            {
+                text: "喜欢的穿搭风格？",
+                options: [
+                    "鲜艳、有设计感，吸睛就好",
+                    "简约、实用，黑白灰为主",
+                    "温柔、舒适，偏浅色系",
+                    "冷色系、小众，不撞款"
+                ]
+            },
+            {
+                text: "面对夸奖，你会？",
+                options: [
+                    "大方接受，还会夸回去",
+                    "淡淡说谢谢，心里不外露",
+                    "有点害羞，会说 \"其实还好啦\"",
+                    "嘴硬说 \"一般般\"，心里偷偷开心"
+                ]
+            },
+            {
+                text: "选择饮品会选？",
+                options: [
+                    "冰汽水 / 果茶，口感清爽",
+                    "无糖咖啡 / 白开水，简单直接",
+                    "热奶茶 / 蜂蜜水，暖心",
+                    "小众茶饮 / 气泡水，不随大流"
+                ]
+            },
+            {
+                text: "朋友难过时，你会？",
+                options: [
+                    "讲笑话逗 TA，拉 TA 出去玩",
+                    "分析问题，给出解决办法",
+                    "默默陪着，递纸巾 / 听 TA 倾诉",
+                    "不知道怎么安慰，但会默默帮 TA 做事"
+                ]
+            },
+            {
+                text: "聚会时你通常是？",
+                options: [
+                    "活跃气氛的话痨，带动全场",
+                    "安静坐在角落，偶尔搭话",
+                    "照顾大家的需求，递水 / 分零食",
+                    "只和熟悉的人说话，不主动社交"
+                ]
+            },
+            {
+                text: "被误解时，你会？",
+                options: [
+                    "立刻解释，不喜欢被冤枉",
+                    "懒得解释，时间会证明",
+                    "有点委屈，但怕吵架先忍了",
+                    "表面无所谓，心里记着这事"
+                ]
+            },
+            {
+                text: "团队合作时，你更愿意？",
+                options: [
+                    "带头冲，负责执行和活跃气氛",
+                    "做规划，负责统筹和决策",
+                    "做辅助，负责后勤和协调",
+                    "做独岗，只负责自己的部分"
+                ]
+            },
+            {
+                text: "认识新朋友的方式？",
+                options: [
+                    "主动搭话，几分钟就熟络",
+                    "经人介绍，慢慢了解",
+                    "主动关心，帮对方解决小问题",
+                    "被动等待，等对方先开口"
+                ]
+            },
+            {
+                text: "朋友找你借钱，你会？",
+                options: [
+                    "爽快借，不问太多",
+                    "问清用途，确定能还再借",
+                    "担心对方不够，多问要不要多借点",
+                    "不太想借，但抹不开面子会借"
+                ]
+            },
+            {
+                text: "社交后会觉得？",
+                options: [
+                    "精力充沛，还想再玩",
+                    "有点累，需要独处恢复",
+                    "开心，只要大家都玩得好就值",
+                    "疲惫，后悔参加"
+                ]
+            },
+            {
+                text: "面对陌生人求助，你会？",
+                options: [
+                    "立刻帮忙，热情解答",
+                    "评估能力，能帮才帮",
+                    "心软，哪怕麻烦也会帮",
+                    "假装没看见，不想多事"
+                ]
+            },
+            {
+                text: "喜欢的聊天话题？",
+                options: [
+                    "八卦 / 趣事 / 旅行经历",
+                    "工作 / 学习 / 未来规划",
+                    "家人 / 朋友 / 生活琐事",
+                    "小众爱好 / 抽象话题，不聊废话"
+                ]
+            },
+            {
+                text: "吵架后会？",
+                options: [
+                    "主动和解，不想冷战",
+                    "冷静后分析对错，再沟通",
+                    "先道歉，怕伤感情",
+                    "等对方先低头，嘴硬不认错"
+                ]
+            },
+            {
+                text: "你更在意朋友的？",
+                options: [
+                    "有趣、能玩到一起",
+                    "靠谱、有原则",
+                    "温柔、懂包容",
+                    "独特、不随波逐流"
+                ]
+            },
+            {
+                text: "被人催做事时，你会？",
+                options: [
+                    "加快速度，边做边吐槽",
+                    "按节奏来，不受影响",
+                    "怕对方着急，先道歉再做",
+                    "更慢，故意赌气"
+                ]
+            },
+            {
+                text: "喜欢的聚会形式？",
+                options: [
+                    "多人桌游 / 密室，热闹",
+                    "两三好友小聚，聊正事",
+                    "家庭聚餐，温馨",
+                    "独自参加，想走就走"
+                ]
+            },
+            {
+                text: "对 \"人情往来\" 的态度？",
+                options: [
+                    "喜欢，觉得热闹有温度",
+                    "理性应对，礼尚往来",
+                    "重视，怕得罪人",
+                    "反感，觉得麻烦"
+                ]
+            },
+            {
+                text: "朋友犯错，你会？",
+                options: [
+                    "直接指出来，帮 TA 改正",
+                    "客观分析错误，给建议",
+                    "委婉提醒，怕 TA 难过",
+                    "懒得说，除非影响到自己"
+                ]
+            },
+            {
+                text: "遇到困难，你会？",
+                options: [
+                    "迎难而上，觉得挑战有趣",
+                    "冷静分析，找最优解",
+                    "有点慌，但会坚持不放弃",
+                    "表面淡定，心里慌但不表露"
+                ]
+            },
+            {
+                text: "制定目标后会？",
+                options: [
+                    "立刻行动，边做边调整",
+                    "详细规划，按步骤执行",
+                    "担心完不成，会找朋友帮忙",
+                    "不告诉别人，默默完成"
+                ]
+            },
+            {
+                text: "面对失败，你会？",
+                options: [
+                    "一笑而过，总结经验再来",
+                    "复盘原因，避免再犯",
+                    "有点难过，但会自我安慰",
+                    "藏起情绪，不想被人看到"
+                ]
+            },
+            {
+                text: "工作 / 学习优先级？",
+                options: [
+                    "先玩够，再赶工",
+                    "先完成，再休息",
+                    "先帮别人，再做自己的",
+                    "只做自己的，不管别人"
+                ]
+            },
+            {
+                text: "喜欢的做事风格？",
+                options: [
+                    "快速完成，追求效率",
+                    "精益求精，追求完美",
+                    "稳扎稳打，不让人操心",
+                    "独来独往，按自己的方式来"
+                ]
+            },
+            {
+                text: "对 \"摸鱼\" 的态度？",
+                options: [
+                    "经常摸鱼，觉得劳逸结合",
+                    "偶尔摸鱼，完成任务才摸",
+                    "不好意思摸鱼，怕拖后腿",
+                    "从不摸鱼，也看不惯别人摸鱼"
+                ]
+            },
+            {
+                text: "收到批评，你会？",
+                options: [
+                    "当场反驳，不服就说",
+                    "冷静接受，反思问题",
+                    "有点委屈，但会改",
+                    "表面接受，心里不服"
+                ]
+            },
+            {
+                text: "面对新技能，你会？",
+                options: [
+                    "立刻尝试，不怕出错",
+                    "先查资料，再动手",
+                    "找人教，怕自己学不会",
+                    "默默自学，不问别人"
+                ]
+            },
+            {
+                text: "对未来的规划？",
+                options: [
+                    "走一步看一步，顺其自然",
+                    "详细规划到几年后",
+                    "希望身边的人都好，自己无所谓",
+                    "只规划自己的，不考虑别人"
+                ]
+            },
+            {
+                text: "做决定时会？",
+                options: [
+                    "凭直觉，快速决定",
+                    "理性分析，权衡利弊",
+                    "参考别人的意见，怕选错",
+                    "自己决定，不解释原因"
+                ]
+            },
+            {
+                text: "喜欢的奖励方式？",
+                options: [
+                    "出去玩 / 吃大餐，热闹庆祝",
+                    "买实用的东西，提升自己",
+                    "和家人 / 朋友分享，一起开心",
+                    "独处放松，不被打扰"
+                ]
+            },
+            {
+                text: "面对压力，你会？",
+                options: [
+                    "喊朋友吐槽，发泄出来",
+                    "运动 / 独处，冷静解压",
+                    "吃点好吃的，自我安慰",
+                    "憋着，不跟任何人说"
+                ]
+            },
+            {
+                text: "对 \"规则\" 的态度？",
+                options: [
+                    "偶尔打破，觉得有趣",
+                    "严格遵守，按规则来",
+                    "尽量遵守，怕给别人添麻烦",
+                    "只遵守自己认可的规则"
+                ]
+            },
+            {
+                text: "完成任务后会？",
+                options: [
+                    "立刻找下一个事做，不闲着",
+                    "总结经验，记录下来",
+                    "关心别人的进度，帮忙收尾",
+                    "默默离开，不邀功"
+                ]
+            },
+            {
+                text: "遇到不公平的事，你会？",
+                options: [
+                    "当场反驳，维护自己",
+                    "收集证据，理性维权",
+                    "忍了，怕惹麻烦",
+                    "记在心里，找机会反击"
+                ]
+            },
+            {
+                text: "喜欢的天气？",
+                options: [
+                    "晴天，适合出门玩",
+                    "阴天，安静不晒",
+                    "雨天，窝在家里很治愈",
+                    "雪天，冷清又特别"
+                ]
+            },
+            {
+                text: "喜欢的游戏类型？",
+                options: [
+                    "竞技类 / 派对类，热闹",
+                    "策略类 / 解谜类，烧脑",
+                    "休闲类 / 养成类，治愈",
+                    "单机类 / 小众类，不社交"
+                ]
+            },
+            {
+                text: "睡前会做什么？",
+                options: [
+                    "刷短视频 / 和朋友聊天",
+                    "看书 / 复盘当天的事",
+                    "整理房间 / 准备第二天的东西",
+                    "发呆 / 听音乐，不说话"
+                ]
+            },
+            {
+                text: "喜欢的节日？",
+                options: [
+                    "春节 / 中秋，热闹团圆",
+                    "清明节 / 重阳节，有仪式感",
+                    "母亲节 / 父亲节，表达心意",
+                    "小众节日 / 不过节，清净"
+                ]
+            },
+            {
+                text: "喜欢的动物？",
+                options: [
+                    "狗狗，活泼粘人",
+                    "猫咪，独立冷静",
+                    "兔子 / 仓鼠，软萌治愈",
+                    "蛇 / 狐狸，神秘特别"
+                ]
+            },
+            {
+                text: "喜欢的音乐风格？",
+                options: [
+                    "流行 / 摇滚，节奏快",
+                    "纯音乐 / 爵士，安静",
+                    "民谣 / 轻音乐，治愈",
+                    "小众 / 实验音乐，独特"
+                ]
+            },
+            {
+                text: "喜欢的电影类型？",
+                options: [
+                    "喜剧 / 动作片，刺激有趣",
+                    "悬疑 / 纪录片，烧脑有深度",
+                    "温情 / 动画，治愈暖心",
+                    "暗黑 / 文艺片，小众有格调"
+                ]
+            },
+            {
+                text: "旅行会选？",
+                options: [
+                    "热门景点，打卡拍照",
+                    "小众景点，深度体验",
+                    "海边 / 乡村，放松治愈",
+                    "无人区 / 冷门地，独处"
+                ]
+            },
+            {
+                text: "起床方式？",
+                options: [
+                    "被闹钟叫醒，立刻起床",
+                    "自己醒，不用闹钟",
+                    "被家人 / 朋友叫醒，温柔起床",
+                    "赖床，谁叫都没用"
+                ]
+            },
+            {
+                text: "对 \"惊喜\" 的态度？",
+                options: [
+                    "超喜欢，期待意外之喜",
+                    "一般，更喜欢按计划来",
+                    "喜欢，只要是别人用心准备的",
+                    "不喜欢，讨厌被打乱节奏"
+                ]
+            }
+        ];
+
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 150;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.setProperty('--duration', Math.random() * 3 + 1 + 's');
+                star.style.setProperty('--opacity', Math.random() * 0.8 + 0.2);
+                star.style.setProperty('--scale', Math.random() * 0.5 + 0.5);
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function createConstellation() {
+            const constellationContainer = document.getElementById('constellation');
+            const lineCount = 20;
+
+            for (let i = 0; i < lineCount; i++) {
+                const line = document.createElement('div');
+                line.className = 'constellation-line';
+                line.style.left = Math.random() * 100 + '%';
+                line.style.top = Math.random() * 100 + '%';
+                line.style.width = Math.random() * 200 + 100 + 'px';
+                line.style.transform = 'rotate(' + Math.random() * 360 + 'deg)';
+                line.style.animationDelay = Math.random() * 3 + 's';
+                constellationContainer.appendChild(line);
+            }
+        }
+
+        let currentQuestion = 0;
+        let answers = {};
+
+        function startSurvey() {
+            document.getElementById('start-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'block';
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('question-number').textContent = `第 ${currentQuestion + 1}/${questions.length} 题`;
+            document.getElementById('question-text').textContent = q.text;
+            
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+            
+            const letters = ['A', 'B', 'C', 'D'];
+            q.options.forEach((opt, idx) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                if (answers[currentQuestion] === idx) {
+                    optionDiv.classList.add('selected');
+                }
+                optionDiv.innerHTML = `<span class="option-letter">${letters[idx]}</span>${opt}`;
+                optionDiv.onclick = () => selectOption(idx);
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            updateProgress();
+            updateButtons();
+        }
+
+        function selectOption(idx) {
+            answers[currentQuestion] = idx;
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, i) => {
+                opt.classList.toggle('selected', i === idx);
+            });
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        }
+
+        function showToast(message) {
+            document.getElementById('toast-message').textContent = message;
+            document.getElementById('toast-overlay').style.display = 'block';
+            document.getElementById('toast').style.display = 'block';
+        }
+
+        function hideToast() {
+            document.getElementById('toast-overlay').style.display = 'none';
+            document.getElementById('toast').style.display = 'none';
+        }
+
+        function nextQuestion() {
+            if (answers[currentQuestion] === undefined) {
+                showToast('请选择一个选项后再继续！');
+                return;
+            }
+            
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            } else {
+                finishSurvey();
+            }
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+        }
+
+        function updateButtons() {
+            document.getElementById('prev-btn').disabled = currentQuestion === 0;
+            const nextBtn = document.getElementById('next-btn');
+            if (currentQuestion === questions.length - 1) {
+                nextBtn.textContent = '完成测试';
+            } else {
+                nextBtn.textContent = '下一题';
+            }
+        }
+
+        const characterIntros = {
+            "三月七": "星穹列车的成员，性格古灵精怪，喜欢拍照记录生活。她乐观向上，总是能给周围的人带来欢乐，是列车上的开心果。",
+            "希儿": "量子之海中的神秘少女，性格温柔善良，有着强大的量子力量。她渴望被理解和接纳，是个令人心疼的角色。",
+            "青雀": "仙舟的文书，性格悠闲自在，喜欢摸鱼和打牌。她总是能找到偷懒的理由，是个可爱的摸鱼达人。",
+            "虎克": "鼹鼠党的首领，性格勇敢活泼，充满正义感。她虽然年纪小，但有着领导者的气质，是个小大人。",
+            "艾丝妲": "空间站的管理员，性格热情活泼，充满活力。她总是为空间站的居民着想，是个可爱的角色。",
+            "砂金": "星际商人，性格精明干练，善于交际。他总是能找到赚钱的机会，是个有趣的角色。",
+            "丹恒": "星穹列车的守护者，外表清冷，内心细腻。他有着强大的实力，总是默默守护着列车的安全。",
+            "瓦尔特": "星穹列车的工程师，性格冷静理性，专注于科技研究。他沉默寡言，但关键时刻总是可靠的。",
+            "景元": "仙舟的将军，性格威严沉稳，有着出色的领导能力。他总是为仙舟的繁荣而努力。",
+            "符玄": "仙舟的太卜司，性格神秘莫测，善于预测未来。她有着强大的精神力量，是个令人敬畏的角色。",
+            "杰帕德": "贝洛伯格的守护者，性格正直勇敢，责任感强。他总是冲在保护家园的第一线。",
+            "布洛妮娅": "贝洛伯格的守护者，性格坚韧不拔，责任感强。她为了保护家园，付出了巨大的努力。",
+            "姬子": "星穹列车的领航员，成熟稳重，充满智慧。她有着丰富的阅历，是列车上的精神支柱。",
+            "娜塔莎": "贝洛伯格的医生，性格温柔体贴，总是优先考虑他人的需求。她用医术和爱心治愈着每一个人。",
+            "藿藿": "仙舟的狐人少女，性格胆小怯懦，但有着强大的治疗能力。她总是躲在别人身后，是个需要保护的角色。",
+            "玲可": "贝洛伯格的学者，性格温柔善良，专注于研究。她总是为了他人着想，是个可爱的角色。",
+            "流萤": "神秘的少女，性格温柔优雅，有着强大的治疗能力。她总是带着微笑，给人温暖的感觉。",
+            "云璃": "仙舟的舞者，性格温柔如水，擅长音律。她的舞蹈总能给人带来治愈的感觉。",
+            "刃": "仙舟的叛逆者，性格冷漠疏离，实力强大。他有着复杂的过去，是个充满谜团的角色。",
+            "卡芙卡": "星际和平公司的成员，性格妩媚动人，善于操控人心。她是个危险但迷人的角色。",
+            "银狼": "星际和平公司的成员，性格玩世不恭，喜欢挑战规则。她有着超强的黑客能力，是个难以捉摸的角色。",
+            "罗刹": "神秘的旅人，性格优雅从容，有着强大的治疗能力。他总是带着微笑，让人捉摸不透。",
+            "镜流": "仙舟的剑仙，性格高冷孤傲，实力强大。她是个令人敬畏的角色。",
+            "黄泉": "神秘的角色，性格高冷神秘，有着强大的实力。她总是带着面纱，让人捉摸不透。"
+        };
+
+        const personalityAnalyses = {
+            "热情活泼": "你是一个热情、开朗、充满活力的人。你热爱生活，喜欢冒险和挑战，总是能给周围的人带来快乐和正能量。你重情义、讲义气，对朋友真诚坦率，愿意为了在意的人挺身而出。你追求自由和快乐，相信活在当下，享受每一个精彩的瞬间。",
+            "冷静理性": "你是一个理性、稳重、值得信赖的人。你做事有条理，善于分析和规划，凡事讲求逻辑和原则。在团队中，你往往是那个能稳住大局、做出正确决策的人。你追求效率和成果，对自己和他人都有较高的要求，但同时也懂得尊重规则和他人的感受。",
+            "温柔治愈": "你是一个善良、温柔、富有同理心的人。你敏感细腻，善于察觉他人的情绪变化，总是能在别人需要的时候给予温暖和安慰。你重视家庭和友情，愿意为了所爱的人付出，是一个非常好的倾听者和陪伴者。你追求和谐和安稳，相信温柔的力量能够化解一切。",
+            "高冷神秘": "你是一个独立、清醒、有主见的人。你喜欢独处，享受内心的宁静，不喜欢被世俗的规则和他人的看法所束缚。你有自己独特的价值观和生活方式，虽然外表看起来有些疏离，但内心其实有着自己的坚持和温柔。你追求自由和真实，相信只有忠于自己才能获得真正的平静。"
+        };
+
+        const charactersByType = {
+            "热情活泼": ["三月七", "希儿", "青雀", "虎克", "艾丝妲", "砂金"],
+            "冷静理性": ["丹恒", "瓦尔特", "景元", "符玄", "杰帕德", "布洛妮娅"],
+            "温柔治愈": ["姬子", "娜塔莎", "藿藿", "玲可", "流萤", "云璃"],
+            "高冷神秘": ["刃", "卡芙卡", "银狼", "罗刹", "镜流", "黄泉"]
+        };
+
+        const typeMapping = {
+            0: "热情活泼",
+            1: "冷静理性",
+            2: "温柔治愈",
+            3: "高冷神秘"
+        };
+
+        function finishSurvey() {
+            const optionCounts = [0, 0, 0, 0];
+            
+            for (let i = 0; i < questions.length; i++) {
+                if (answers[i] !== undefined) {
+                    optionCounts[answers[i]]++;
+                }
+            }
+            
+            let maxCount = -1;
+            let maxIndex = 0;
+            for (let i = 0; i < optionCounts.length; i++) {
+                if (optionCounts[i] > maxCount) {
+                    maxCount = optionCounts[i];
+                    maxIndex = i;
+                }
+            }
+            
+            const type = typeMapping[maxIndex];
+            const characters = charactersByType[type];
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            const character = characters[randomIndex];
+            
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('result-screen').style.display = 'block';
+            document.getElementById('result-type').textContent = type;
+            document.getElementById('result-character').textContent = character;
+            
+            const analysisDiv = document.getElementById('personality-analysis');
+            const analysis = personalityAnalyses[type] || "暂无分析";
+            analysisDiv.innerHTML = `
+                <div class="personality-analysis-title">你的性格分析</div>
+                <div class="personality-analysis-text">${analysis}</div>
+            `;
+            
+            const introDiv = document.getElementById('character-intro');
+            const intro = characterIntros[character] || "暂无介绍";
+            introDiv.innerHTML = `
+                <div class="character-intro-title">角色介绍</div>
+                <div class="character-intro-text">${intro}</div>
+            `;
+        }
+
+        // 初始化
+        window.onload = function() {
+            createStars();
+            createConstellation();
+        };
+    </script>
+</body>
+</html>
