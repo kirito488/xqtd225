@@ -1234,7 +1234,7 @@
             "云璃": "仙舟的舞者，性格温柔如水，擅长音律。她的舞蹈总能给人带来治愈的感觉。",
             "刃": "仙舟的叛逆者，性格冷漠疏离，实力强大。他有着复杂的过去，是个充满谜团的角色。",
             "卡芙卡": "星际和平公司的成员，性格妩媚动人，善于操控人心。她是个危险但迷人的角色。",
-            "银狼": "星际和平公司的成员，性格玩世不恭，喜欢挑战规则。她有着超强的黑客能力，是个难以捉摸的角色。",
+            "银狼": "星核猎手的成员，性格玩世不恭，喜欢挑战规则。她有着超强的黑客能力，是个难以捉摸的角色。",
             "罗刹": "神秘的旅人，性格优雅从容，有着强大的治疗能力。他总是带着微笑，让人捉摸不透。",
             "镜流": "仙舟的剑仙，性格高冷孤傲，实力强大。她是个令人敬畏的角色。",
             "黄泉": "神秘的角色，性格高冷神秘，有着强大的实力。她总是带着面纱，让人捉摸不透。"
@@ -1309,6 +1309,35 @@
             createStars();
             createConstellation();
         };
+
+
+        // 隐藏移动设备浏览器地址栏
+        function hideAddressBar() {
+            // 检查是否为移动设备
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (isMobile) {
+                // 确保页面有足够的高度
+                document.body.style.minHeight = '105vh';
+                
+                // 延迟执行滚动，确保DOM已完全加载
+                setTimeout(() => {
+                    // 滚动1像素以触发地址栏隐藏
+                    window.scrollTo(0, 1);
+                    
+                    // 恢复正常的最小高度
+                    setTimeout(() => {
+                        document.body.style.minHeight = '100vh';
+                    }, 100);
+                }, 100);
+            }
+        }
+
+        // 页面加载时隐藏地址栏
+        window.addEventListener('load', hideAddressBar);
+        
+        // 页面调整大小时（如旋转设备）也尝试隐藏地址栏
+        window.addEventListener('resize', hideAddressBar);
     </script>
 </body>
 </html>
