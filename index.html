@@ -83,60 +83,191 @@
             }
         }
 
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(147, 51, 234, 0.8);
+            border-radius: 50%;
+            animation: float 15s infinite;
+            box-shadow: 0 0 10px rgba(147, 51, 234, 0.8);
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
         .container {
             text-align: center;
             z-index: 10;
-            padding: 40px;
+            padding: 20px;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1400px;
             position: relative;
         }
 
+        .start-screen-content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .railway-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .railway-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.3), rgba(59, 130, 246, 0.3));
+            border: 2px solid rgba(147, 51, 234, 0.5);
+            animation: iconPulse 2s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
+        }
+
+        .railway-icon:nth-child(1) { animation-delay: 0s; }
+        .railway-icon:nth-child(2) { animation-delay: 0.4s; }
+        .railway-icon:nth-child(3) { animation-delay: 0.8s; }
+        .railway-icon:nth-child(4) { animation-delay: 1.2s; }
+        .railway-icon:nth-child(5) { animation-delay: 1.6s; }
+
+        @keyframes iconPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 30px rgba(147, 51, 234, 0.6);
+            }
+        }
+
         .title {
-            font-size: 3rem;
-            background: linear-gradient(135deg, #ff6ad5, #8b5cf6, #3b82f6);
+            font-size: 3.2rem;
+            background: linear-gradient(135deg, #ff6ad5 0%, #8b5cf6 50%, #3b82f6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 30px rgba(147, 51, 234, 0.6),
-                         0 0 60px rgba(59, 130, 246, 0.4),
-                         0 4px 8px rgba(0, 0, 0, 0.5);
+            text-shadow: none;
             margin-bottom: 20px;
-            letter-spacing: 4px;
-            animation: glow 2s ease-in-out infinite alternate;
+            letter-spacing: 3px;
+            position: relative;
+            filter: drop-shadow(0 0 20px rgba(147, 51, 234, 0.5));
+            animation: titleFlicker 4s ease-in-out infinite;
+            text-transform: uppercase;
+        }
+        
+        .title::after {
+            content: '星穹铁道性格测试';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(135deg, #ff6ad5 0%, #8b5cf6 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: blur(20px);
+            opacity: 0.5;
+            z-index: -1;
         }
 
-        @keyframes glow {
-            from {
-                text-shadow: 0 0 30px rgba(147, 51, 234, 0.6),
-                             0 0 60px rgba(59, 130, 246, 0.4),
-                             0 4px 8px rgba(0, 0, 0, 0.5);
+        @keyframes titleFlicker {
+            0%, 100% {
+                filter: drop-shadow(0 0 20px rgba(147, 51, 234, 0.5));
             }
-            to {
-                text-shadow: 0 0 40px rgba(147, 51, 234, 0.8),
-                             0 0 80px rgba(59, 130, 246, 0.6),
-                             0 4px 8px rgba(0, 0, 0, 0.5);
+            50% {
+                filter: drop-shadow(0 0 40px rgba(147, 51, 234, 0.8)) drop-shadow(0 0 60px rgba(59, 130, 246, 0.4));
             }
+        }
+
+        .subtitle-container {
+            margin-bottom: 45px;
         }
 
         .subtitle {
-            font-size: 1.2rem;
-            color: #e6e6fa;
-            margin-bottom: 60px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            font-size: 1.25rem;
+            color: #ff6ad5;
+            margin-bottom: 10px;
+            opacity: 0.95;
+            text-shadow: 0 0 10px rgba(147, 51, 234, 0.5);
+        }
+
+        .subtitle-detail {
+            font-size: 1.05rem;
+            color: rgba(59, 130, 246, 0.8);
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .start-screen-footer {
+            margin-top: 50px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(147, 51, 234, 0.3);
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: rgba(147, 51, 234, 0.9);
+            margin: 0;
+            animation: textGlow 2s ease-in-out infinite;
+            text-shadow: 0 0 10px rgba(147, 51, 234, 0.5);
+        }
+
+        @keyframes textGlow {
+            0%, 100% {
+                opacity: 0.7;
+                text-shadow: 0 0 10px rgba(147, 51, 234, 0.5);
+            }
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 20px rgba(147, 51, 234, 0.8);
+            }
         }
 
         .start-btn {
-            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
-            border: none;
-            padding: 18px 60px;
-            font-size: 1.3rem;
+            background: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
+            border: 2px solid rgba(147, 51, 234, 0.6);
+            padding: 20px 65px;
+            font-size: 1.35rem;
             font-weight: bold;
             color: #fff;
             cursor: pointer;
-            border-radius: 50px;
-            box-shadow: 0 10px 30px rgba(147, 51, 234, 0.4),
-                        inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(147, 51, 234, 0.5),
+                        inset 0 1px 3px rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -151,7 +282,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.5s;
         }
 
@@ -160,13 +291,14 @@
         }
 
         .start-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(147, 51, 234, 0.6),
-                        inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 0 50px rgba(147, 51, 234, 0.7),
+                        inset 0 1px 3px rgba(255, 255, 255, 0.2);
+            border-color: rgba(147, 51, 234, 0.9);
         }
 
         .start-btn:active {
-            transform: translateY(-2px) scale(1.02);
+            transform: translateY(-2px) scale(1.01);
         }
 
         .decoration {
@@ -204,43 +336,75 @@
 
         .quiz-container {
             display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 40px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(147, 51, 234, 0.2);
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.08) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(147, 51, 234, 0.3);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(147, 51, 234, 0.2), 0 0 60px rgba(59, 130, 246, 0.1);
+            width: 100%;
+        }
+
+        .quiz-header {
+            margin-bottom: 15px;
         }
 
         .progress-bar {
             height: 6px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 3px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
         }
 
         .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6, #8b5cf6);
+            background-size: 200% 100%;
             border-radius: 3px;
             transition: width 0.5s ease;
+            animation: shimmer 2s linear infinite;
+            box-shadow: 0 0 10px rgba(147, 51, 234, 0.6);
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
         }
 
         .question-number {
-            background: linear-gradient(135deg, #ff6ad5, #8b5cf6);
+            background: linear-gradient(135deg, #ff6ad5 0%, #8b5cf6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
+            font-size: 1.15rem;
+            margin-bottom: 10px;
             font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .encouragement-text {
+            color: rgba(59, 130, 246, 0.9);
+            font-size: 0.95rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            animation: fadeIn 0.5s ease;
         }
 
         .question-text {
-            color: #fff;
-            font-size: 1.4rem;
+            color: #e8eef5;
+            font-size: 1.45rem;
             margin-bottom: 40px;
-            line-height: 1.6;
+            line-height: 1.7;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
         .options {
@@ -251,72 +415,141 @@
         }
 
         .option {
-            background: rgba(255, 255, 255, 0.08);
-            border: 2px solid transparent;
-            padding: 18px 20px;
-            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border: 2px solid rgba(147, 51, 234, 0.25);
+            padding: 20px 22px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-align: left;
-            color: #e6e6fa;
-            font-size: 1rem;
-            min-height: 60px;
+            color: #d4dce8;
+            font-size: 1.1rem;
+            min-height: 68px;
             display: flex;
             align-items: center;
             width: 100%;
             max-width: 100%;
+            position: relative;
+            overflow: visible;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(147, 51, 234, 0.1), transparent);
+            transition: left 0.5s ease;
         }
 
         .option:hover {
-            background: rgba(147, 51, 234, 0.15);
-            border-color: rgba(147, 51, 234, 0.4);
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.2) 0%, rgba(147, 51, 234, 0.1) 100%);
+            border-color: rgba(147, 51, 234, 0.6);
+            transform: translateX(4px);
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.2);
+        }
+
+        .option:hover::before {
+            left: 100%;
         }
 
         .option.selected {
-            background: rgba(147, 51, 234, 0.25);
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.3) 0%, rgba(147, 51, 234, 0.15) 100%);
             border-color: #8b5cf6;
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.3), inset 0 0 10px rgba(147, 51, 234, 0.1);
         }
 
         .option-letter {
             display: inline-block;
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, #8b5cf6, #3b82f6);
             color: #fff;
             border-radius: 50%;
             text-align: center;
-            line-height: 36px;
+            line-height: 40px;
             font-weight: bold;
-            margin-right: 15px;
+            margin-right: 16px;
             flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(147, 51, 234, 0.5);
+            border: 1px solid rgba(147, 51, 234, 0.4);
+        }
+
+        .option-feedback {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            color: #fff;
+            padding: 7px 14px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            z-index: 10;
+            animation: feedbackSlide 0.4s ease;
+            box-shadow: 0 0 15px rgba(147, 51, 234, 0.5);
+            white-space: nowrap;
+        }
+
+        @keyframes feedbackSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(-50%) translateX(15px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(-50%) translateX(0);
+            }
         }
 
         .nav-buttons {
             display: flex;
             justify-content: space-between;
-            gap: 20px;
+            gap: 15px;
         }
 
         .nav-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px solid rgba(147, 51, 234, 0.3);
-            padding: 14px 40px;
-            font-size: 1rem;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.15) 0%, rgba(59, 130, 246, 0.1) 100%);
+            border: 2px solid rgba(147, 51, 234, 0.4);
+            padding: 15px 42px;
+            font-size: 1.05rem;
             font-weight: bold;
             color: #8b5cf6;
             cursor: pointer;
-            border-radius: 25px;
+            border-radius: 8px;
             transition: all 0.3s ease;
             flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(147, 51, 234, 0.2), transparent);
+            transition: left 0.5s ease;
         }
 
         .nav-btn:hover:not(:disabled) {
-            background: rgba(147, 51, 234, 0.2);
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.25) 0%, rgba(147, 51, 234, 0.15) 100%);
             border-color: #8b5cf6;
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.3);
+        }
+
+        .nav-btn:hover:not(:disabled)::before {
+            left: 100%;
         }
 
         .nav-btn:disabled {
-            opacity: 0.4;
+            opacity: 0.35;
             cursor: not-allowed;
         }
 
@@ -324,91 +557,232 @@
             background: linear-gradient(135deg, #8b5cf6, #3b82f6);
             border-color: transparent;
             color: #fff;
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.4);
         }
 
         .nav-btn.primary:hover:not(:disabled) {
             transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(147, 51, 234, 0.4);
+            box-shadow: 0 0 30px rgba(147, 51, 234, 0.5);
+        }
+
+        .fun-tip {
+            color: rgba(59, 130, 246, 0.7);
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 18px;
+            padding: 10px;
+            background: rgba(147, 51, 234, 0.08);
+            border-radius: 8px;
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            animation: fadeIn 0.5s ease;
         }
 
         .result-container {
             display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 50px 40px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(147, 51, 234, 0.2);
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(147, 51, 234, 0.35);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(147, 51, 234, 0.2), 0 0 80px rgba(59, 130, 246, 0.1);
+            width: 100%;
         }
 
         .result-type {
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, #ff6ad5, #8b5cf6);
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #ff6ad5 0%, #8b5cf6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 20px;
             letter-spacing: 3px;
+            font-weight: bold;
+            position: relative;
+            z-index: 1;
         }
 
         .result-character {
-            font-size: 3.5rem;
-            color: #fff;
-            text-shadow: 0 0 30px rgba(147, 51, 234, 0.6);
+            font-size: 3.6rem;
+            background: linear-gradient(135deg, #fff 0%, #8b5cf6 50%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             margin-bottom: 30px;
             font-weight: bold;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 0 20px rgba(147, 51, 234, 0.5));
+            animation: characterPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes characterPulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 20px rgba(147, 51, 234, 0.5));
+            }
+            50% {
+                filter: drop-shadow(0 0 40px rgba(147, 51, 234, 0.7));
+            }
         }
 
         .personality-analysis {
-            background: rgba(147, 51, 234, 0.08);
-            border: 1px solid rgba(147, 51, 234, 0.3);
-            border-radius: 15px;
-            padding: 30px;
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.12) 0%, rgba(59, 130, 246, 0.08) 100%);
+            border: 2px solid rgba(147, 51, 234, 0.35);
+            border-radius: 10px;
+            padding: 22px;
             margin-bottom: 30px;
             text-align: left;
             line-height: 1.8;
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .personality-analysis::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+            border-radius: 10px 10px 0 0;
         }
 
         .personality-analysis-title {
-            background: linear-gradient(135deg, #ff6ad5, #8b5cf6);
+            background: linear-gradient(135deg, #ff6ad5 0%, #8b5cf6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             font-weight: bold;
             margin-bottom: 15px;
             text-align: center;
+            letter-spacing: 1px;
         }
 
         .personality-analysis-text {
-            color: #e6e6fa;
-            font-size: 1.1rem;
+            color: #d4dce8;
+            font-size: 1.15rem;
+            position: relative;
+            z-index: 1;
         }
 
         .character-intro {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(147, 51, 234, 0.2);
-            border-radius: 15px;
-            padding: 30px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 51, 234, 0.08) 100%);
+            border: 2px solid rgba(59, 130, 246, 0.35);
+            border-radius: 10px;
+            padding: 22px;
             margin-bottom: 40px;
             text-align: left;
             line-height: 1.8;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .character-intro::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            border-radius: 10px 10px 0 0;
         }
 
         .character-intro-title {
-            background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-size: 1.3rem;
+            font-size: 1.35rem;
             font-weight: bold;
             margin-bottom: 15px;
             text-align: center;
+            letter-spacing: 1px;
         }
 
         .character-intro-text {
-            color: #e6e6fa;
+            color: #d4dce8;
             font-size: 1.1rem;
+        }
+
+        .character-traits {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border: 2px solid rgba(147, 51, 234, 0.35);
+            border-radius: 10px;
+            padding: 22px;
+            margin-bottom: 40px;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.15);
+        }
+
+        .character-traits::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .character-traits-title {
+            background: linear-gradient(135deg, #ff6ad5 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.35rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .trait-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .trait-label {
+            width: 120px;
+            color: #d4dce8;
+            font-weight: bold;
+            font-size: 1.05rem;
+        }
+
+        .trait-bar-container {
+            flex: 1;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 0 15px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .trait-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6);
+            border-radius: 6px;
+            transition: width 1s ease-out;
+            box-shadow: 0 0 10px rgba(147, 51, 234, 0.6);
+        }
+
+        .trait-value {
+            width: 40px;
+            color: #d4dce8;
+            font-weight: bold;
+            text-align: right;
+            font-size: 1.05rem;
         }
 
         .toast {
@@ -598,6 +972,7 @@
 <body>
     <div class="stars" id="stars"></div>
     <div class="constellation" id="constellation"></div>
+    <div class="particles" id="particles"></div>
     
     <div class="decoration"></div>
     <div class="decoration"></div>
@@ -610,9 +985,24 @@
     
     <div class="container">
         <div id="start-screen">
-            <h1 class="title">星穹铁道性格测试</h1>
-            <p class="subtitle">探索你与哪位星穹铁道角色最相似</p>
-            <button class="start-btn" onclick="startSurvey()">开始测试</button>
+            <div class="start-screen-content">
+                <div class="railway-icons">
+                    <div class="railway-icon">⚡</div>
+                    <div class="railway-icon">🚄</div>
+                    <div class="railway-icon">🌟</div>
+                    <div class="railway-icon">💫</div>
+                    <div class="railway-icon">✨</div>
+                </div>
+                <h1 class="title">星穹铁道性格测试</h1>
+                <div class="subtitle-container">
+                    <p class="subtitle">探索你与哪位星穹铁道角色最相似</p>
+                    <p class="subtitle-detail">回答10个问题，揭示你的性格特质</p>
+                </div>
+                <button class="start-btn" onclick="startSurvey()">开始测试</button>
+                <div class="start-screen-footer">
+                    <p class="footer-text">踏上星穹列车，开启你的性格之旅</p>
+                </div>
+            </div>
         </div>
 
         <div id="quiz-screen" class="quiz-container">
@@ -633,7 +1023,12 @@
             <div class="result-character" id="result-character"></div>
 
             <div class="personality-analysis" id="personality-analysis"></div>
+            <div class="character-traits">
+                <div class="character-traits-title">角色特质</div>
+                <div id="traits-container"></div>
+            </div>
             <div class="character-intro" id="character-intro"></div>
+            <button class="nav-btn primary" onclick="restartTest()">重新测试</button>
         </div>
     </div>
 
@@ -1247,6 +1642,33 @@
             "高冷神秘": "你是一个独立、清醒、有主见的人。你喜欢独处，享受内心的宁静，不喜欢被世俗的规则和他人的看法所束缚。你有自己独特的价值观和生活方式，虽然外表看起来有些疏离，但内心其实有着自己的坚持和温柔。你追求自由和真实，相信只有忠于自己才能获得真正的平静。"
         };
 
+        const characterTraits = {
+            "三月七": { "勇气": 85, "智慧": 70, "善良": 80, "自信": 90, "好奇心": 95 },
+            "希儿": { "勇气": 90, "智慧": 85, "善良": 75, "自信": 85, "好奇心": 80 },
+            "青雀": { "勇气": 75, "智慧": 90, "善良": 85, "自信": 70, "好奇心": 85 },
+            "虎克": { "勇气": 95, "智慧": 65, "善良": 90, "自信": 85, "好奇心": 90 },
+            "艾丝妲": { "勇气": 70, "智慧": 80, "善良": 95, "自信": 80, "好奇心": 85 },
+            "砂金": { "勇气": 80, "智慧": 95, "善良": 65, "自信": 90, "好奇心": 80 },
+            "丹恒": { "勇气": 90, "智慧": 95, "善良": 80, "自信": 85, "好奇心": 70 },
+            "瓦尔特": { "勇气": 85, "智慧": 100, "善良": 85, "自信": 80, "好奇心": 75 },
+            "景元": { "勇气": 95, "智慧": 90, "善良": 85, "自信": 95, "好奇心": 65 },
+            "符玄": { "勇气": 80, "智慧": 95, "善良": 75, "自信": 90, "好奇心": 80 },
+            "杰帕德": { "勇气": 100, "智慧": 75, "善良": 90, "自信": 95, "好奇心": 60 },
+            "布洛妮娅": { "勇气": 95, "智慧": 85, "善良": 80, "自信": 90, "好奇心": 70 },
+            "姬子": { "勇气": 85, "智慧": 90, "善良": 95, "自信": 80, "好奇心": 85 },
+            "娜塔莎": { "勇气": 70, "智慧": 85, "善良": 100, "自信": 75, "好奇心": 70 },
+            "藿藿": { "勇气": 60, "智慧": 75, "善良": 95, "自信": 65, "好奇心": 80 },
+            "玲可": { "勇气": 75, "智慧": 90, "善良": 90, "自信": 70, "好奇心": 85 },
+            "流萤": { "勇气": 80, "智慧": 80, "善良": 95, "自信": 85, "好奇心": 75 },
+            "云璃": { "勇气": 85, "智慧": 85, "善良": 90, "自信": 85, "好奇心": 80 },
+            "刃": { "勇气": 100, "智慧": 80, "善良": 65, "自信": 95, "好奇心": 60 },
+            "卡芙卡": { "勇气": 90, "智慧": 95, "善良": 60, "自信": 95, "好奇心": 85 },
+            "银狼": { "勇气": 85, "智慧": 100, "善良": 65, "自信": 90, "好奇心": 90 },
+            "罗刹": { "勇气": 80, "智慧": 90, "善良": 90, "自信": 85, "好奇心": 75 },
+            "镜流": { "勇气": 95, "智慧": 85, "善良": 70, "自信": 95, "好奇心": 65 },
+            "黄泉": { "勇气": 90, "智慧": 90, "善良": 75, "自信": 90, "好奇心": 70 }
+        };
+
         const charactersByType = {
             "热情活泼": ["三月七", "希儿", "青雀", "虎克", "艾丝妲", "砂金"],
             "冷静理性": ["丹恒", "瓦尔特", "景元", "符玄", "杰帕德", "布洛妮娅"],
@@ -1302,12 +1724,58 @@
                 <div class="character-intro-title">角色介绍</div>
                 <div class="character-intro-text">${intro}</div>
             `;
+            
+            // 生成角色特质条形图
+            const traitsContainer = document.getElementById('traits-container');
+            const traits = characterTraits[character] || { 勇气: 50, 智慧: 50, 善良: 50, 自信: 50, 好奇心: 50 };
+            
+            traitsContainer.innerHTML = '';
+            for (const [trait, value] of Object.entries(traits)) {
+                const traitItem = document.createElement('div');
+                traitItem.className = 'trait-item';
+                traitItem.innerHTML = `
+                    <div class="trait-label">${trait}</div>
+                    <div class="trait-bar-container">
+                        <div class="trait-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="trait-value">${value}%</div>
+                `;
+                traitsContainer.appendChild(traitItem);
+            }
+            
+            // 动画效果
+            setTimeout(() => {
+                const traitBars = document.querySelectorAll('.trait-bar');
+                traitBars.forEach((bar, index) => {
+                    const traitName = Object.keys(traits)[index];
+                    const value = traits[traitName];
+                    setTimeout(() => {
+                        bar.style.width = value + '%';
+                    }, index * 100);
+                });
+            }, 100);
+        }
+
+        // 创建粒子效果
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            if (!particlesContainer) return;
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                particlesContainer.appendChild(particle);
+            }
         }
 
         // 初始化
         window.onload = function() {
             createStars();
             createConstellation();
+            createParticles();
         };
 
 
